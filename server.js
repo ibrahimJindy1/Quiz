@@ -16,11 +16,12 @@ let levelRange = 2
 io.on("connection", (socket) => {
   console.log(`User ${socket}`);
   socket.on('findGame',(user)=>{
-    let{username,level} = user
+    let{username,level,questions} = user
     socket.level = level
     socket.username = username
+    socket.questions = questions
     // let room = rooms.find(r=> r.users.length == 1 && r.users.some(user=>user.level - levelRange <=  userLevel || user.level + levelRange >=  userLevel))
-    let room = rooms.find(r=> r.users.length == 1)
+    let room = rooms.find(r=> r.users.length == 1 && room.users[0].username != socket.username)
     if(room == null){
       console.log(room);
       rooms.push({roomId:uuid.v4(),users:[socket]})
@@ -29,7 +30,7 @@ io.on("connection", (socket) => {
       room.users[0].join(room.roomId)
       socket.join(room.roomId)
       room.users[0].emit('startMatch',{username:socket.username,level:socket.level,roomId:room.roomId})
-      socket.emit('startMatch',{username:room.users[0].username,level:room.users[0].level,roomId:room.roomId})
+      socket.emit('startMatch',{username:room.users[0].username,level:room.users[0].level,roomId:room.roomId,questions:socket.questions})
       let roomIndex = rooms.findIndex(r=>r.roomId == rooms.roomId)
       rooms.splice(roomIndex,1)
       */,{questions,room.roomId}*/
