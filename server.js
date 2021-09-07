@@ -21,6 +21,14 @@ io.on("connection", (socket) => {
       if(roomInd != -1)
       rooms.splice(roomInd,1)
     });
+    
+     socket.on("Waitingdisconnect", (socket) => {
+      console.log(`User ${socket} Waiting disconnected`);
+      let roomInd = rooms.findIndex(r=> r.users.length == 1 &&r.users[0].username == socket.username)
+      if(roomInd != -1)
+      rooms.splice(roomInd,1)
+    });
+    
   socket.on('findGame',(user)=>{
     let{username,level,questions} = user
     socket.level = level
