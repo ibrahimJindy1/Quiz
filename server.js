@@ -17,17 +17,21 @@ io.on("connection", (socket) => {
   console.log(`User ${socket}`);
     socket.on("disconnect", (socket) => {
       console.log(`User ${socket} disconnected`);
-      let roomInd = rooms.findIndex(r=> r.users.length == 1 &&r.users[0].username == socket.username)
-      if(roomInd != -1)
+      let roomInd = rooms.findIndex(r=> r.users[0].id == socket.id ||  r.users[1].id == socket.id)
+      if(roomInd != -1){
+          console.log(roomInd)
       rooms.splice(roomInd,1)
+      }
     });
     
      socket.on("Waitingdisconnect", (socket) => {
       console.log(`User ${socket} Waiting disconnected`);
       let {roomId} = socket
       let roomInd = rooms.findIndex(r=> r.roomId == roomId)
-      if(roomInd != -1)
+      if(roomInd != -1){
+          console.log(roomInd)
       rooms.splice(roomInd,1)
+      }
     });
     
   socket.on('findGame',(user)=>{
