@@ -24,7 +24,8 @@ io.on("connection", (socket) => {
     let room = rooms.find(r=> r.users.length == 1 && r.users[0].username != socket.username)
     if(room == null){
       console.log(room);
-      rooms.push({roomId:uuid.v4(),users:[socket]})
+      roomIds = uuid.v4()
+      rooms.push({roomId:roomIds,users:[socket]})
       socket.emit('waitForPlayer',{roomId:roomIds})
     } else{
       room.users[0].join(room.roomId)
