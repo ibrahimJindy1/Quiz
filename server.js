@@ -21,7 +21,7 @@ io.on("connection", (socket) => {
     socket.username = username
     socket.questions = questions
     // let room = rooms.find(r=> r.users.length == 1 && r.users.some(user=>user.level - levelRange <=  userLevel || user.level + levelRange >=  userLevel))
-    let room = rooms.find(r=> r.users.length == 1 && room.users[0].username != socket.username)
+    let room = rooms.find(r=> r.users.length == 1 && r.users[0].username != socket.username)
     if(room == null){
       console.log(room);
       rooms.push({roomId:uuid.v4(),users:[socket]})
