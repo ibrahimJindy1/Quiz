@@ -40,12 +40,12 @@ io.on("connection", (socket) => {
     socket.broadcast.to(roomID).emit('userAnswered',{correctAnswers})
     console.log(correctAnswers,roomID);
   })
-  
-});
-socket.on('waitingCaneled' ,(data) =>{
+  socket.on('waitingCaneled' ,(data) =>{
     let {roomId} = data
     rooms[roomId] = null
+  })
 });
+
 io.on("disconnect", (socket) => {
     console.log(`User ${socket} disconnected`);
     socket.emit("fromServer", "disco");
