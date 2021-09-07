@@ -24,7 +24,8 @@ io.on("connection", (socket) => {
     
      socket.on("Waitingdisconnect", (socket) => {
       console.log(`User ${socket} Waiting disconnected`);
-      let roomInd = rooms.findIndex(r=> r.users.length == 1 &&r.users[0].username == socket.username)
+      let {roomId} = socket
+      let roomInd = rooms.findIndex(r=> r.roomId == roomId)
       if(roomInd != -1)
       rooms.splice(roomInd,1)
     });
