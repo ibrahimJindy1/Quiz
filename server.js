@@ -15,6 +15,12 @@ let levelRange = 2
 
 io.on("connection", (socket) => {
   console.log(`User ${socket}`);
+    socket.on("disconnect", (socket) => {
+      console.log(`User ${socket} disconnected`);
+      let roomInd = rooms.findIndex(r=> r.users.length == 1 &&r.users[0].username == socket.username)
+      if(roomInd != -1)
+      rooms.splice(roomInd,1)
+    });
   socket.on('findGame',(user)=>{
     let{username,level,questions} = user
     socket.level = level
