@@ -21,20 +21,22 @@ io.on("connection", (socket) => {
     socket.username = username
     socket.questions = questions
     // let room = rooms.find(r=> r.users.length == 1 && r.users.some(user=>user.level - levelRange <=  userLevel || user.level + levelRange >=  userLevel))
-    let room = rooms.find(r=> r.users.length == 1 && r.users[0].username != socket.username)
+    let room = rooms.find(r=> r.users.length == 1 )
     if(room == null){
       console.log(room);
       roomIds = uuid.v4()
       rooms.push({roomId:roomIds,users:[socket]})
       socket.emit('waitForPlayer',{roomId:roomIds})
     } else{
+      if(room.users[0].username != socket.username){
       room.users[0].join(room.roomId)
       socket.join(room.roomId)
       room.users[0].emit('startMatch',{username:socket.username,level:socket.level,roomId:room.roomId,questions:room.users[0].questions})
       socket.emit('startMatch',{username:room.users[0].username,level:room.users[0].level,roomId:room.roomId,questions:room.users[0].questions})
       let roomIndex = rooms.findIndex(r=>r.roomId == rooms.roomId)
       rooms.splice(roomIndex,1)
-      */,{questions,room.roomId}*/
+      }
+      
     }})
   socket.on("answer",(data)=>{
     let {correctAnswers,roomID} = data
