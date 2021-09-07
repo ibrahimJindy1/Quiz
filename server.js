@@ -17,7 +17,7 @@ io.on("connection", (socket) => {
   console.log(`User ${socket}`);
     socket.on("disconnect", (socket) => {
       console.log(`User ${socket} disconnected`);
-      let roomInd = rooms.findIndex(r=> r.users[0].id == socket.id ||  r.users[1].id == socket.id)
+      let roomInd = rooms.findIndex(r=> r.socketid[0] == socket.id && r.users.length == 1)
       if(roomInd != -1){
           console.log(roomInd)
       rooms.splice(roomInd,1)
@@ -44,7 +44,7 @@ io.on("connection", (socket) => {
     if(room == null){
       console.log(room);
       roomIds = uuid.v4()
-      rooms.push({roomId:roomIds,users:[socket]})
+      rooms.push({roomId:roomIds,users:[socket],socketid:[socket.id]})
       socket.emit('waitForPlayer',{roomId:roomIds})
     } else{
       if(room.users[0].username != socket.username){
