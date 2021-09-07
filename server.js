@@ -25,7 +25,7 @@ io.on("connection", (socket) => {
     if(room == null){
       console.log(room);
       rooms.push({roomId:uuid.v4(),users:[socket]})
-      socket.emit('waitForPlayer')
+      socket.emit('waitForPlayer',{roomId:roomIds})
     } else{
       room.users[0].join(room.roomId)
       socket.join(room.roomId)
@@ -42,7 +42,10 @@ io.on("connection", (socket) => {
   })
   
 });
-
+socket.on('waitingCaneled' ,(data) =>{
+    let {roomId} = data
+    rooms[roomId] = null
+});
 io.on("disconnect", (socket) => {
     console.log(`User ${socket} disconnected`);
     socket.emit("fromServer", "disco");
