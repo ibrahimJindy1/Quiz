@@ -29,7 +29,7 @@ io.on("connection", (socket) => {
     } else{
       room.users[0].join(room.roomId)
       socket.join(room.roomId)
-      room.users[0].emit('startMatch',{username:socket.username,level:socket.level,roomId:room.roomId})
+      room.users[0].emit('startMatch',{username:socket.username,level:socket.level,roomId:room.roomId,questions:socket.questions})
       socket.emit('startMatch',{username:room.users[0].username,level:room.users[0].level,roomId:room.roomId,questions:socket.questions})
       let roomIndex = rooms.findIndex(r=>r.roomId == rooms.roomId)
       rooms.splice(roomIndex,1)
